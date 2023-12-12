@@ -1,0 +1,46 @@
+%{
+#include "parser.tab.h"
+int line_count = 1;
+%}
+
+%option noyywrap
+
+/*Structure for the tokens*/
+id     [a-zA-Z][a-zA-Z_0-9]*
+typefloat  [0-9]+\.[0-9]+
+typeint    [0-9]+
+typestring \"[^\"\n]*\"
+%%  
+\(          {return (LPAR);}
+\)          {return (RPAR);}
+\+          {return (OP_MATH);}
+\-          {return (OP_MATH);}
+\*          {return (OP_MATH);}
+\/          {return (OP_MATH);}
+\^          {return (OP_MATH);}
+\%	        {return (OP_MATH);}
+
+\=\=         {return (OP_REL);}
+\!\=         {return (OP_REL);}
+\<          {return (OP_REL);}
+\>          {return (OP_REL);}
+\<\=        {return (OP_REL);}
+\>\=        {return (OP_REL);}
+
+\:          {return (TWODOTS);}
+\=	        {return (ASSIGN);}
+
+GOTO        {return (GOTO);}
+
+write	    {return (WRITE);}
+read	    {return (READ);}
+if	        {return (IF);}
+
+{typeint}       {return NUM;}
+{id}            {return ID;}
+{typestring}    {return TEXTO;}
+{typefloat}     {return DECIMAL;}
+
+\n {line_count++;}
+[ \t]+      {/*ignore*/}
+%%

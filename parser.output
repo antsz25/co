@@ -1,0 +1,554 @@
+State 9 conflicts: 5 shift/reduce
+State 17 conflicts: 5 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: body
+
+    2 body: statement
+    3     | ε
+
+    4 statement: statements body
+
+    5 statements: assign
+    6           | read
+    7           | write
+    8           | ifcond
+    9           | gotostmt
+   10           | label
+
+   11 assign: ID ASSIGN expression
+   12       | ID ASSIGN value
+
+   13 expression: value OP_MATH value
+
+   14 read: READ LPAR RPAR
+
+   15 write: WRITE LPAR parts RPAR
+
+   16 parts: TEXTO
+   17      | ID
+
+   18 ifcond: IF valueForCd OP_REL valueForCd GOTO ID
+
+   19 label: ID TWODOTS labelparts
+
+   20 labelparts: body
+
+   21 gotostmt: GOTO ID
+
+   22 valueForCd: ID
+   23           | NUM
+   24           | TEXTO
+   25           | DECIMAL
+
+   26 value: ID
+   27      | NUM
+   28      | DECIMAL
+   29      | TEXTO
+   30      | read
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    ID <sval> (258) 11 12 17 18 19 21 22 26
+    NUM <ival> (259) 23 27
+    WRITE (260) 15
+    READ (261) 14
+    IF (262) 18
+    LPAR (263) 14 15
+    RPAR (264) 14 15
+    OP_MATH <sval> (265) 13
+    OP_REL <sval> (266) 18
+    ASSIGN (267) 11 12
+    TWODOTS (268) 19
+    TEXTO <sval> (269) 16 24 29
+    DECIMAL <fval> (270) 25 28
+    GOTO (271) 18 21
+
+
+Nonterminals, with rules where they appear
+
+    $accept (17)
+        on left: 0
+    program (18)
+        on left: 1
+        on right: 0
+    body <sval> (19)
+        on left: 2 3
+        on right: 1 4 20
+    statement <sval> (20)
+        on left: 4
+        on right: 2
+    statements <sval> (21)
+        on left: 5 6 7 8 9 10
+        on right: 4
+    assign <sval> (22)
+        on left: 11 12
+        on right: 5
+    expression <sval> (23)
+        on left: 13
+        on right: 11
+    read <sval> (24)
+        on left: 14
+        on right: 6 30
+    write <sval> (25)
+        on left: 15
+        on right: 7
+    parts <sval> (26)
+        on left: 16 17
+        on right: 15
+    ifcond <sval> (27)
+        on left: 18
+        on right: 8
+    label <sval> (28)
+        on left: 19
+        on right: 10
+    labelparts <sval> (29)
+        on left: 20
+        on right: 19
+    gotostmt <sval> (30)
+        on left: 21
+        on right: 9
+    valueForCd <sval> (31)
+        on left: 22 23 24 25
+        on right: 18
+    value <sval> (32)
+        on left: 26 27 28 29 30
+        on right: 12 13
+
+
+State 0
+
+    0 $accept: • program $end
+
+    ID     shift, and go to state 1
+    WRITE  shift, and go to state 2
+    READ   shift, and go to state 3
+    IF     shift, and go to state 4
+    GOTO   shift, and go to state 5
+
+    $default  reduce using rule 3 (body)
+
+    program     go to state 6
+    body        go to state 7
+    statement   go to state 8
+    statements  go to state 9
+    assign      go to state 10
+    read        go to state 11
+    write       go to state 12
+    ifcond      go to state 13
+    label       go to state 14
+    gotostmt    go to state 15
+
+
+State 1
+
+   11 assign: ID • ASSIGN expression
+   12       | ID • ASSIGN value
+   19 label: ID • TWODOTS labelparts
+
+    ASSIGN   shift, and go to state 16
+    TWODOTS  shift, and go to state 17
+
+
+State 2
+
+   15 write: WRITE • LPAR parts RPAR
+
+    LPAR  shift, and go to state 18
+
+
+State 3
+
+   14 read: READ • LPAR RPAR
+
+    LPAR  shift, and go to state 19
+
+
+State 4
+
+   18 ifcond: IF • valueForCd OP_REL valueForCd GOTO ID
+
+    ID       shift, and go to state 20
+    NUM      shift, and go to state 21
+    TEXTO    shift, and go to state 22
+    DECIMAL  shift, and go to state 23
+
+    valueForCd  go to state 24
+
+
+State 5
+
+   21 gotostmt: GOTO • ID
+
+    ID  shift, and go to state 25
+
+
+State 6
+
+    0 $accept: program • $end
+
+    $end  shift, and go to state 26
+
+
+State 7
+
+    1 program: body •
+
+    $default  reduce using rule 1 (program)
+
+
+State 8
+
+    2 body: statement •
+
+    $default  reduce using rule 2 (body)
+
+
+State 9
+
+    4 statement: statements • body
+
+    ID     shift, and go to state 1
+    WRITE  shift, and go to state 2
+    READ   shift, and go to state 3
+    IF     shift, and go to state 4
+    GOTO   shift, and go to state 5
+
+    ID        [reduce using rule 3 (body)]
+    WRITE     [reduce using rule 3 (body)]
+    READ      [reduce using rule 3 (body)]
+    IF        [reduce using rule 3 (body)]
+    GOTO      [reduce using rule 3 (body)]
+    $default  reduce using rule 3 (body)
+
+    body        go to state 27
+    statement   go to state 8
+    statements  go to state 9
+    assign      go to state 10
+    read        go to state 11
+    write       go to state 12
+    ifcond      go to state 13
+    label       go to state 14
+    gotostmt    go to state 15
+
+
+State 10
+
+    5 statements: assign •
+
+    $default  reduce using rule 5 (statements)
+
+
+State 11
+
+    6 statements: read •
+
+    $default  reduce using rule 6 (statements)
+
+
+State 12
+
+    7 statements: write •
+
+    $default  reduce using rule 7 (statements)
+
+
+State 13
+
+    8 statements: ifcond •
+
+    $default  reduce using rule 8 (statements)
+
+
+State 14
+
+   10 statements: label •
+
+    $default  reduce using rule 10 (statements)
+
+
+State 15
+
+    9 statements: gotostmt •
+
+    $default  reduce using rule 9 (statements)
+
+
+State 16
+
+   11 assign: ID ASSIGN • expression
+   12       | ID ASSIGN • value
+
+    ID       shift, and go to state 28
+    NUM      shift, and go to state 29
+    READ     shift, and go to state 3
+    TEXTO    shift, and go to state 30
+    DECIMAL  shift, and go to state 31
+
+    expression  go to state 32
+    read        go to state 33
+    value       go to state 34
+
+
+State 17
+
+   19 label: ID TWODOTS • labelparts
+
+    ID     shift, and go to state 1
+    WRITE  shift, and go to state 2
+    READ   shift, and go to state 3
+    IF     shift, and go to state 4
+    GOTO   shift, and go to state 5
+
+    ID        [reduce using rule 3 (body)]
+    WRITE     [reduce using rule 3 (body)]
+    READ      [reduce using rule 3 (body)]
+    IF        [reduce using rule 3 (body)]
+    GOTO      [reduce using rule 3 (body)]
+    $default  reduce using rule 3 (body)
+
+    body        go to state 35
+    statement   go to state 8
+    statements  go to state 9
+    assign      go to state 10
+    read        go to state 11
+    write       go to state 12
+    ifcond      go to state 13
+    label       go to state 14
+    labelparts  go to state 36
+    gotostmt    go to state 15
+
+
+State 18
+
+   15 write: WRITE LPAR • parts RPAR
+
+    ID     shift, and go to state 37
+    TEXTO  shift, and go to state 38
+
+    parts  go to state 39
+
+
+State 19
+
+   14 read: READ LPAR • RPAR
+
+    RPAR  shift, and go to state 40
+
+
+State 20
+
+   22 valueForCd: ID •
+
+    $default  reduce using rule 22 (valueForCd)
+
+
+State 21
+
+   23 valueForCd: NUM •
+
+    $default  reduce using rule 23 (valueForCd)
+
+
+State 22
+
+   24 valueForCd: TEXTO •
+
+    $default  reduce using rule 24 (valueForCd)
+
+
+State 23
+
+   25 valueForCd: DECIMAL •
+
+    $default  reduce using rule 25 (valueForCd)
+
+
+State 24
+
+   18 ifcond: IF valueForCd • OP_REL valueForCd GOTO ID
+
+    OP_REL  shift, and go to state 41
+
+
+State 25
+
+   21 gotostmt: GOTO ID •
+
+    $default  reduce using rule 21 (gotostmt)
+
+
+State 26
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 27
+
+    4 statement: statements body •
+
+    $default  reduce using rule 4 (statement)
+
+
+State 28
+
+   26 value: ID •
+
+    $default  reduce using rule 26 (value)
+
+
+State 29
+
+   27 value: NUM •
+
+    $default  reduce using rule 27 (value)
+
+
+State 30
+
+   29 value: TEXTO •
+
+    $default  reduce using rule 29 (value)
+
+
+State 31
+
+   28 value: DECIMAL •
+
+    $default  reduce using rule 28 (value)
+
+
+State 32
+
+   11 assign: ID ASSIGN expression •
+
+    $default  reduce using rule 11 (assign)
+
+
+State 33
+
+   30 value: read •
+
+    $default  reduce using rule 30 (value)
+
+
+State 34
+
+   12 assign: ID ASSIGN value •
+   13 expression: value • OP_MATH value
+
+    OP_MATH  shift, and go to state 42
+
+    $default  reduce using rule 12 (assign)
+
+
+State 35
+
+   20 labelparts: body •
+
+    $default  reduce using rule 20 (labelparts)
+
+
+State 36
+
+   19 label: ID TWODOTS labelparts •
+
+    $default  reduce using rule 19 (label)
+
+
+State 37
+
+   17 parts: ID •
+
+    $default  reduce using rule 17 (parts)
+
+
+State 38
+
+   16 parts: TEXTO •
+
+    $default  reduce using rule 16 (parts)
+
+
+State 39
+
+   15 write: WRITE LPAR parts • RPAR
+
+    RPAR  shift, and go to state 43
+
+
+State 40
+
+   14 read: READ LPAR RPAR •
+
+    $default  reduce using rule 14 (read)
+
+
+State 41
+
+   18 ifcond: IF valueForCd OP_REL • valueForCd GOTO ID
+
+    ID       shift, and go to state 20
+    NUM      shift, and go to state 21
+    TEXTO    shift, and go to state 22
+    DECIMAL  shift, and go to state 23
+
+    valueForCd  go to state 44
+
+
+State 42
+
+   13 expression: value OP_MATH • value
+
+    ID       shift, and go to state 28
+    NUM      shift, and go to state 29
+    READ     shift, and go to state 3
+    TEXTO    shift, and go to state 30
+    DECIMAL  shift, and go to state 31
+
+    read   go to state 33
+    value  go to state 45
+
+
+State 43
+
+   15 write: WRITE LPAR parts RPAR •
+
+    $default  reduce using rule 15 (write)
+
+
+State 44
+
+   18 ifcond: IF valueForCd OP_REL valueForCd • GOTO ID
+
+    GOTO  shift, and go to state 46
+
+
+State 45
+
+   13 expression: value OP_MATH value •
+
+    $default  reduce using rule 13 (expression)
+
+
+State 46
+
+   18 ifcond: IF valueForCd OP_REL valueForCd GOTO • ID
+
+    ID  shift, and go to state 47
+
+
+State 47
+
+   18 ifcond: IF valueForCd OP_REL valueForCd GOTO ID •
+
+    $default  reduce using rule 18 (ifcond)

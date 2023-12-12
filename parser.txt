@@ -1,0 +1,88 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+void yyerror(const char* message);
+int yylex();
+extern FILE* yyin;
+extern char* yytext;
+extern int line_count;
+%}
+/*Simbolos Terminales*/
+%token ID
+%token NUM
+%token WRITE
+%token READ
+%token IF
+%token LPAR
+%token RPAR
+%token OP_MATH
+%token OP_REL
+%token ASSIGN
+%token TWODOTS 
+%token TEXTO
+%token DECIMAL
+%token GOTO
+%start program
+%%
+program : body
+        ;
+body    : statement
+        | %empty
+        ;
+statement       : label 
+                | statements body
+                ;
+statements : assign
+          | read
+          | write
+          | ifcond
+          | gotostmt
+          ;
+assign  : ID ASSIGN expression
+        ;
+expression      : operation
+                | value
+                ;
+operation       : value OP_MATH value
+                ;
+read    : READ LPAR parts
+        ;
+write   : WRITE LPAR parts
+        ;
+parts   : TEXTO RPAR 
+        | ID RPAR
+        ;
+ifcond  : IF condition gotostmt
+        ;
+label   : ID TWODOTS body
+        ;
+gotostmt: GOTO ID
+        ;
+condition       : valueForCd OP_REL valueForCd
+                ;
+valueForCd      : ID
+                | NUM
+                ;
+value   : ID
+        | NUM
+        | DECIMAL
+        ;
+%%
+int main(int argc, char *argv[]){
+    if (argc < 2) { //Utilizacion de archivo de entrada
+        printf("Uso: %s archivo_de_entrada\n", argv[0]);
+    }
+    FILE *archivo = fopen(argv[1], "r");//Inicializacion de archivo de entrada
+    if (archivo == NULL) {//Verificacion de apertura correcta de archivo
+        printf("Error: no se pudo abrir el archivo de entrada.\n");
+        return 1;
+    }
+    yyin = archivo; // Archivo a escanear
+    yyparse();
+    fclose(archivo);//Cerradura de archivo
+    return 0;
+}
+void yyerror(const char* message) {
+    fprintf(stderr, "Error en la línea %d: %s -> %s\n", line_count, message, yytext);
+    exit(1);
+}
